@@ -1,0 +1,142 @@
+% Présentation M.O.R.S.E.
+% El Jawad Alaa
+% 09/12/2016
+
+# Qu'est-ce que M.O.R.S.E ?
+
+## Definition
+
+__The Modular OpenRobots Simulation Engine__
+
+![MORSE](imgs/morse-logo.png){width=12.5%}
+
+## Histoire
+
+Créé par le __LASS-CNRS__ (_Laboratoire d'Analyse et d'Architecture des Systèmes_).   
+Puis repris par d'autres universités (Georgia Tech, Dassault Aviation, INRIA, ISAE SUPAERO ...)
+
+
+## En quelques mots (ou images)
+
+ - simulateur d'environnement 3D 
+
+ - focus sur le rendering (![Blender](imgs/blender-logo.png){width=12.5%})
+
+ - Physique géré par ![Bullet Physics](imgs/bullet-logo.png){width=12.5%}
+
+ - entierement écrit en ![Python 3](imgs/python3-logo.png){width=12.5%}
+
+
+<!-- ![Morse](imgs/morse-logo.png){width=12.5%} -->
+
+
+## Installation
+
+Sous linux ou OSX.
+
+[http://www.openrobots.org/morse/doc/1.4/user/installation.html](http://www.openrobots.org/morse/doc/1.4/user/installation.html)
+
+
+# Utilisation
+
+## Utilisation ultra-simple
+
+### Ligne de commande
+
+```bash
+# Verification de l'installation
+$ morse check
+# Creation d'un 'workspace'
+$ morse create mysim
+# Lancement d'une simulation
+$ morse run mysim
+```
+
+. . . 
+
+### Architecture du 'workspace' créé
+
+ - __scripts__: scripts pour interagir avec vos simulations (controle, lecture des capteurs... etc)
+ - __src__: définitions et équations d'état des robots, capteurs, et actionneurs  
+ - _default.py_ : script python qui décrit la simulation
+
+
+## Utilisation simple
+
+### Script basique
+
+```python
+from morse.builder import *
+# Ajout d'un robot
+robot = ATRV()		# a remplacer par le robot voulu
+# Ajout d'un actionneur
+motion = MotionVW()
+robot.append(motion)
+# Ajout d'un capteur
+camera = VideoCamera()
+robot.append(camera)
+# Creation de l'environnement
+env = Environment('sandbox', fastmode=False)
+```
+
+. . . 
+
+ - Environnement peut être édité/créé sous Blender
+ - Liste de composants disponibles [ici](http://www.openrobots.org/morse/doc/stable/components_library.html)
+
+## Interfacage avec l'exterieur
+
+ - ROS
+ - MOOS
+ - YARP
+ - Socket
+
+. . . 
+
+__Utilisation des méthodes__:  
+`add_stream('')` + `add_service('')` = `add_interface('')`
+ou `robot.add_default_interface('')`
+
+. . . 
+
+__Exemple avec ROS__:
+
+```python
+camera.add_stream('ros')
+```
+
+__Tuto socket__:  
+[Advanced_tutorials/request_tutorial.html](http://www.openrobots.org/morse/doc/1.2/user/advanced_tutorials/request_tutorial.html)
+
+# Extension de MORSE
+
+
+## Créer son robot
+
+ 1. `$ morse add robot <name> mysim`
+ 2. Definir le modèle 3D sous Blender (voir [ici](https://www.youtube.com/embed/videoseries?list=PLDC1FC34E5AC69429&hd=1&rel=0))
+ 3. Définir les équations d'états dans la fonction `default_action()`
+ 4. On peut aussi appliquer directement des forces
+
+__Pour plus d'info:__
+[Adding_a_robot.html](http://www.openrobots.org/morse/doc/1.2/dev/adding_robot.html)
+
+
+## Ajouter d'autres composants
+
+[Lien](http://www.openrobots.org/morse/doc/1.2/dev/adding_component.html)
+
+### Actionneurs
+
+`$ morse add sensor <name> mysim`
+
+### Capteurs
+
+`$ morse add actuator <name> mysim`
+
+Ensuite faut coder !
+
+# Merci
+
+
+
